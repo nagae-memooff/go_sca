@@ -1,8 +1,9 @@
 package main
 
 import (
+	//   utils "github.com/nagae-memooff/goutils"
 	"sort"
-	"time"
+	//   "time"
 )
 
 func init() {
@@ -64,11 +65,19 @@ func main() {
 	go waitSignal()
 
 	// TODO 主逻辑
-
-	for {
-		time.Sleep(time.Second)
-		KafkaProducer.Write([]byte("string"))
+	var u []User
+	params := map[string]interface{}{
+		"name": "admin",
 	}
+
+	db.Where(params).Find(&u)
+
+	Log.Info(u)
+
+	// for {
+	// 	time.Sleep(time.Second)
+	KafkaProducer.Write([]byte("string"))
+	// }
 
 	<-make(chan bool)
 }

@@ -7,6 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/nagae-memooff/config"
 	"net/http"
+
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 	//   "os"
 	//   "strings"
 	//   "sync"
@@ -16,6 +19,8 @@ import (
 var (
 	router       *gin.Engine
 	router_group *gin.RouterGroup
+
+	abc int
 )
 
 func init() {
@@ -27,6 +32,7 @@ func init() {
 
 func routers() {
 	Get("/health_check", health_check)
+	Get("/incr/:table", incr)
 }
 
 func listenHttp() {
@@ -35,22 +41,20 @@ func listenHttp() {
 
 	base_url := config.Get("http_base_url")
 
-	router = gin.Default()
-	router_group = router.Group(base_url)
-
-	routers()
 	if config.Get("log_file") != "stdout" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	go router.Run(listen)
-	// err = router.Run(listen)
+	router = gin.Default()
+	router_group = router.Group(base_url)
 
-	// if err != nil {
-	// 	Log.Critical("failed to listen http port: %s", err)
+	routers()
 
-	// }
-	// return
+	srv := &http.Server{
+		Addr:    listen,
+		Handler: h2c.NewHandler(router, &http2.Server{}),
+	}
+	go srv.ListenAndServe()
 }
 
 func Get(path string, f func(c *gin.Context)) {
@@ -105,4 +109,22 @@ func health_check(c *gin.Context) {
 	// message := c.PostForm("message")
 	// nick := c.DefaultPostForm("nick", "anonymous")
 	return_ok(c, "running")
+}
+
+func incr(c *gin.Context) {
+	// Parameters in path
+	//   _ = c.Param("table")
+	// action := c.Param("action")
+	// message := name + " is " + action
+	// c.String(http.StatusOK, message)
+
+	// Querystring parameters
+	// firstname := c.DefaultQuery("firstname", "Guest")
+	// lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
+
+	// POST multipart
+	// message := c.PostForm("message")
+	// nick := c.DefaultPostForm("nick", "anonymous")
+	abc += 1
+	c.Writer.Write([]byte(fmt.Sprintf("%d\n", abc)))
 }

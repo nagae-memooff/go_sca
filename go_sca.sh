@@ -11,7 +11,9 @@ fi
 git clone git@git.sabachat.cn:golang/go_sca.git $NAME
 cd $NAME
 
-sed -i "s/PROG=demo/PROG=$NAME/g" demo.conf
+sed -i "s/PROG=demo/PROG=$NAME/g" control.sh
 mv demo.conf $NAME.conf
 
 sed -i "s/Proname = \"demo\"/Proname = \"$NAME\"/g" info.go
+
+rm -rf .git

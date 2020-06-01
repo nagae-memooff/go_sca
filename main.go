@@ -64,7 +64,14 @@ func main() {
 
 	go waitSignal()
 
+	_main()
+
+	<-make(chan bool)
+}
+
+func _main() {
 	// TODO 主逻辑
+
 	var u []User
 	params := map[string]interface{}{
 		"name": "admin",
@@ -78,6 +85,4 @@ func main() {
 	// 	time.Sleep(time.Second)
 	KafkaProducer.Write([]byte("string"))
 	// }
-
-	<-make(chan bool)
 }

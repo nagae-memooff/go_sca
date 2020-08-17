@@ -16,4 +16,8 @@ mv demo.conf $NAME.conf
 
 sed -i "s/Proname = \"demo\"/Proname = \"$NAME\"/g" info.go
 
+sed -i "s/PROC=\"demo\"/PROC=\"$NAME\"/g" build.sh
+sed -i "s/progname = \"demo\"/progname = \"$NAME\"/g" build.rb
+
 rm -rf .git
+rm go_sca.sh

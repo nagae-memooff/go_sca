@@ -8,7 +8,7 @@ if [ "$NAME" == "" ]; then
   exit 1
 fi
 
-git clone git@git.sabachat.cn:golang/go_sca.git $NAME
+git clone git@github.com:nagae-memooff/go_sca.git $NAME
 cd $NAME
 
 sed -i "s/PROG=demo/PROG=$NAME/g" control.sh

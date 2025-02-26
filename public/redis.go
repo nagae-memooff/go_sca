@@ -1,4 +1,4 @@
-package main
+package public
 
 import (
 	"errors"
@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	RedisPool    *redis.Pool
-	redis_prefix string
+	RedisPool   *redis.Pool
+	RedisPrefix string
 
 	// 哨兵模式需要
 	sntnl             *sentinel.Sentinel
@@ -20,7 +20,7 @@ var (
 )
 
 func init() {
-	init_queue = append(init_queue, InitProcess{
+	InitQueue = append(InitQueue, InitProcess{
 		Order:    1,
 		InitFunc: initPool,
 		QuitFunc: quitPool,
@@ -40,6 +40,7 @@ func initPool() {
 	} else {
 		initRedisPool()
 	}
+
 }
 
 func initRedisPool() {
@@ -214,7 +215,7 @@ func RedisSet(key, value string, expire int) (data string, err error) {
 		c.Close()
 	}()
 
-	key = fmt.Sprintf("%s/%s", redis_prefix, key)
+	key = fmt.Sprintf("%s/%s", RedisPrefix, key)
 	data_origin, err := c.Do("set", key, value)
 	if err != nil {
 		return
@@ -233,7 +234,7 @@ func RedisGet(key string) (data string, err error) {
 		c.Close()
 	}()
 
-	key = fmt.Sprintf("%s/%s", redis_prefix, key)
+	key = fmt.Sprintf("%s/%s", RedisPrefix, key)
 	data, err = redis.String(c.Do("get", key))
 	if err != nil {
 		return

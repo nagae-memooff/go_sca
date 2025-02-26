@@ -1,4 +1,4 @@
-package main
+package public
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 
 var Log log.Logger
 
-func initLogger() {
+func InitLogger() {
 	LogLevel := log.LevelByString(config.Get("log_level"))
 
 	Log = log.NewDefaultLogger(LogLevel)

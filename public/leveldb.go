@@ -1,4 +1,4 @@
-package main
+package public
 
 import (
 	"github.com/syndtr/goleveldb/leveldb"
@@ -11,11 +11,11 @@ var (
 )
 
 func init() {
-	init_queue = append(init_queue, InitProcess{
-		Order:    1,
-		InitFunc: loadLevelDB,
-		QuitFunc: closeLevelDB,
-	})
+	// InitQueue = append(InitQueue, InitProcess{
+	// 	Order:    1,
+	// 	InitFunc: loadLevelDB,
+	// 	QuitFunc: closeLevelDB,
+	// })
 }
 
 type DatabaseStruct struct {

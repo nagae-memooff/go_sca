@@ -1,4 +1,4 @@
-package main
+package public
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	init_queue = append(init_queue, InitProcess{
+	InitQueue = append(InitQueue, InitProcess{
 		Order:    10,
 		InitFunc: listenDebug,
 	})

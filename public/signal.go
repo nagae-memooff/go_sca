@@ -1,4 +1,4 @@
-package main
+package public
 
 import (
 	"os"
@@ -13,7 +13,7 @@ import (
 	// "github.com/nagae-memooff/config"
 )
 
-func waitSignal() {
+func WaitSignal() {
 	c := make(chan os.Signal)
 	signal.Notify(c, syscall.SIGUSR1, syscall.SIGUSR2, syscall.SIGINT, syscall.SIGTERM)
 	t := 0
@@ -28,7 +28,7 @@ func waitSignal() {
 			}
 			t++
 
-			go shutdown(0, "")
+			go Shutdown(0, "")
 			time.Sleep(time.Second)
 		case "user defined signal 1":
 			// ReloadGlobalConfig()
@@ -45,14 +45,14 @@ func waitSignal() {
 	}
 }
 
-func printStartMsg() {
+func PrintStartMsg() {
 	Log.Info("start %s", Proname)
 }
 
-func shutdown(code int, message string, params ...interface{}) {
-	sort.Reverse(init_queue)
+func Shutdown(code int, message string, params ...interface{}) {
+	sort.Reverse(InitQueue)
 
-	for _, init_process := range init_queue {
+	for _, init_process := range InitQueue {
 		if init_process.QuitFunc != nil {
 			init_process.QuitFunc()
 		}

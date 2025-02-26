@@ -1,4 +1,4 @@
-package main
+package public
 
 import (
 	// "encoding/json"
@@ -23,12 +23,12 @@ var (
 )
 
 func init() {
-	init_queue = append(init_queue, InitProcess{
-		Order:     1,
-		InitFunc:  initKafkaProducer,
-		StartFunc: startKafkaProducer,
-		QuitFunc:  closeKafkaProducer,
-	})
+	// InitQueue = append(InitQueue, InitProcess{
+	// 	Order:     1,
+	// 	InitFunc:  initKafkaProducer,
+	// 	StartFunc: startKafkaProducer,
+	// 	QuitFunc:  closeKafkaProducer,
+	// })
 }
 
 func initKafkaProducer() {

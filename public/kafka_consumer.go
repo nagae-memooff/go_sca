@@ -1,4 +1,4 @@
-package main
+package public
 
 import (
 	"fmt"
@@ -21,12 +21,12 @@ var (
 )
 
 func init() {
-	init_queue = append(init_queue, InitProcess{
-		Order:     1,
-		InitFunc:  initKafkaConsumer,
-		StartFunc: startKafkaConsumer,
-		QuitFunc:  closeKafkaConsumer,
-	})
+	// InitQueue = append(InitQueue, InitProcess{
+	// 	Order:     1,
+	// 	InitFunc:  initKafkaConsumer,
+	// 	StartFunc: startKafkaConsumer,
+	// 	QuitFunc:  closeKafkaConsumer,
+	// })
 }
 
 func initKafkaConsumer() {
@@ -46,13 +46,13 @@ func initKafkaConsumer() {
 	KafkaConsumer.consumer, err = sarama.NewConsumer(KafkaConsumer.brokers, nil)
 	Log.Debug("consumer: %v\n", KafkaConsumer.consumer)
 	if err != nil {
-		shutdown(3, "connect kafka error: %s", err)
+		Shutdown(3, "connect kafka error: %s", err)
 	}
 
 	partitionList, err := KafkaConsumer.consumer.Partitions(KafkaConsumer.topic)
 	Log.Debug("partitionList: %v\n", partitionList)
 	if err != nil {
-		shutdown(4, "get kafka partition list error: %s", err)
+		Shutdown(4, "get kafka partition list error: %s", err)
 	}
 
 	if config.Get("kafka_offset_if_notexist") != "oldest" {
@@ -68,7 +68,7 @@ func initKafkaConsumer() {
 	for partition := range partitionList {
 		pc, err := KafkaConsumer.consumer.ConsumePartition(KafkaConsumer.topic, int32(partition), KafkaConsumer.getOffsetForPartition(KafkaConsumer.topic, partition))
 		if err != nil {
-			shutdown(5, "consume kafka partition %d error: %s", partition, err)
+			Shutdown(5, "consume kafka partition %d error: %s", partition, err)
 		}
 
 		KafkaConsumer.pending_msgs[partition] = utils.NewSet()

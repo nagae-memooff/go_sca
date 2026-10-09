@@ -9,7 +9,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/nagae-memooff/config v0.0.0-20210427094615-2d83eedb93b6
 	github.com/nagae-memooff/goutils v0.0.0-20210806041355-2eafa6df7824
-	github.com/nagae-memooff/log4go v0.0.0-20210419095859-a72fabe3a8af
+	github.com/nagae-memooff/log4go v0.0.0-20261009022947-16dad11a5429
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
 	github.com/syndtr/goleveldb v1.0.0
 	golang.org/x/net v0.35.0
